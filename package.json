@@ -1,0 +1,28 @@
+{
+  "name": "sw-proxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node dist/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xna00/sw-proxy.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xna00/sw-proxy/issues"
+  },
+  "homepage": "https://github.com/xna00/sw-proxy#readme",
+  "devDependencies": {
+    "@types/node": "^17.0.24",
+    "@types/node-easy-cert": "^1.3.1"
+  },
+  "dependencies": {
+    "node-easy-cert": "^1.3.3"
+  }
+}
