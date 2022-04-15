@@ -66,9 +66,21 @@ const handler = (
         response.headers
       );
       response.pipe(res, { end: true });
+      res.on("error", (e) => {
+        console.log(e);
+      });
+      response.on("error", (e) => {
+        console.log(e);
+      });
     }
   );
   req.pipe(request, { end: true });
+  req.on("error", (e) => {
+    console.log(e);
+  });
+  request.on("error", (e) => {
+    console.log(e);
+  });
 };
 
 const httpServer = http.createServer((req, res) => {
@@ -113,6 +125,12 @@ httpServer.addListener("connect", (req, socket, headbody) => {
     () => {
       socket.pipe(conn);
       conn.pipe(socket);
+      socket.on("error", (e) => {
+        console.log(e);
+      });
+      conn.on("error", (e) => {
+        console.log(e);
+      });
     }
   );
 });
