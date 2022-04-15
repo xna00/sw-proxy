@@ -44,20 +44,22 @@ const handler = (
     res.end();
     return;
   }
-  const tmp = new URL(url);
   const path =
     "/" +
     Buffer.from(url).toString("base64").replace(/\//g, "_").replace(/\+/g, "-");
-  console.log(url);
+  console.log(url, headers);
+  delete headers.host;
+  delete headers["content-length"];
+  delete headers.connection;
+  console.log(headers);
   const request = https.request(
     {
       hostname: "test.xna00.workers.dev",
       path,
       method,
-      //   headers: {
-      //     ...headers,
-      //     host: '',
-      //   },
+      headers: {
+        ...headers,
+      },
     },
     (response) => {
       res.writeHead(
