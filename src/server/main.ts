@@ -32,11 +32,10 @@ if (!easyCert.isRootCAFileExists()) {
   });
 }
 
-const handler = (
-  req: http.IncomingMessage,
-  res: http.ServerResponse,
-  isHttps = false
-) => {
+const PRESHARED_AUTH_HEADER_KEY = "X-Custom-PSK";
+const PRESHARED_AUTH_HEADER_VALUE = "sfiejhr9p8quw";
+
+const handler = (req: http.IncomingMessage, res: http.ServerResponse) => {
   const { url, method, headers } = req;
   if (!url) {
     res.writeHead(200);
@@ -59,6 +58,7 @@ const handler = (
       method,
       headers: {
         ...headers,
+        [PRESHARED_AUTH_HEADER_KEY]: PRESHARED_AUTH_HEADER_VALUE,
       },
     },
     (response) => {
@@ -112,13 +112,11 @@ httpServer.addListener("connect", (req, socket, headbody) => {
     },
     (req, res) => {
       req.url = `https://${host}${req.url}`;
-      handler(req, res, true);
+      handler(req, res);
       se.close();
     }
   );
-  // TODO: conflict
 
-  //   console.log(port);
   se.listen(0);
   se.setTimeout(0);
   const conn = net.connect(
