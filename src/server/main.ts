@@ -35,6 +35,12 @@ if (!easyCert.isRootCAFileExists()) {
 const PRESHARED_AUTH_HEADER_KEY = "X-Custom-PSK";
 const PRESHARED_AUTH_HEADER_VALUE = "sfiejhr9p8quw";
 
+const hostnames: { hostname: string; count: number }[] = [
+  { hostname: "test.xna00.workers.dev", count: 0 },
+  { hostname: "one.xna00.workers.dev", count: 0 },
+  { hostname: "two.xna00.workers.dev", count: 0 },
+];
+
 const handler = (req: http.IncomingMessage, res: http.ServerResponse) => {
   const { url, method, headers } = req;
   if (!url) {
@@ -46,14 +52,17 @@ const handler = (req: http.IncomingMessage, res: http.ServerResponse) => {
   const path =
     "/" +
     Buffer.from(url).toString("base64").replace(/\//g, "_").replace(/\+/g, "-");
-  console.log(url, headers);
   delete headers.host;
   delete headers["content-length"];
   delete headers.connection;
-  console.log(headers);
+  const tmp = hostnames.sort((a, b) => a.count - b.count)[0];
+  tmp.count++;
+  const hostname = tmp.hostname;
+  console.log(hostname, tmp.count);
+
   const request = https.request(
     {
-      hostname: "test.xna00.workers.dev",
+      hostname,
       path,
       method,
       headers: {
