@@ -53,7 +53,7 @@ const handler = (req: http.IncomingMessage, res: http.ServerResponse) => {
     "/" +
     Buffer.from(url).toString("base64").replace(/\//g, "_").replace(/\+/g, "-");
   delete headers.host;
-  delete headers["content-length"];
+  //   delete headers["content-length"];
   delete headers.connection;
   const tmp = hostnames.sort((a, b) => a.count - b.count)[0];
   tmp.count++;
@@ -78,19 +78,20 @@ const handler = (req: http.IncomingMessage, res: http.ServerResponse) => {
       );
       response.pipe(res, { end: true });
       res.on("error", (e) => {
-        console.log(e);
+        console.log("res", e);
       });
       response.on("error", (e) => {
-        console.log(e);
+        console.log("response", e);
       });
     }
   );
   req.pipe(request, { end: true });
   req.on("error", (e) => {
-    console.log(e);
+    console.log("req", e);
   });
   request.on("error", (e) => {
-    console.log(e);
+    console.log("request", e);
+    res.end();
   });
 };
 
@@ -135,10 +136,10 @@ httpServer.addListener("connect", (req, socket, headbody) => {
       socket.pipe(conn);
       conn.pipe(socket);
       socket.on("error", (e) => {
-        console.log(e);
+        console.log("socket", e);
       });
       conn.on("error", (e) => {
-        console.log(e);
+        console.log("conn", e);
       });
     }
   );
