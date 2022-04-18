@@ -12,8 +12,9 @@ const PRESHARED_AUTH_HEADER_VALUE = "sfiejhr9p8quw";
 async function handleRequest(request) {
   const { url, headers } = request;
   const psk = headers.get(PRESHARED_AUTH_HEADER_KEY);
+  const token = (await PROXY.get('token')) || PRESHARED_AUTH_HEADER_VALUE;
 
-  if (psk !== PRESHARED_AUTH_HEADER_VALUE) {
+  if (psk !== token) {
     return new Response("", {
       status: 403,
     });
