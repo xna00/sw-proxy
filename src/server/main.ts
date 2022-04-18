@@ -33,7 +33,7 @@ if (!easyCert.isRootCAFileExists()) {
 }
 
 const PRESHARED_AUTH_HEADER_KEY = "X-Custom-PSK";
-const PRESHARED_AUTH_HEADER_VALUE = "sfiejhr9p8quw";
+const PRESHARED_AUTH_HEADER_VALUE = process.argv[2] || "sfiejhr9p8quw";
 
 const hostnames: { hostname: string; count: number }[] = [
   { hostname: "test.xna00.workers.dev", count: 0 },
